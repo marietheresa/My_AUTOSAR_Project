@@ -37,7 +37,7 @@ SECTION_POSTBUILD_DATA const Can_HardwareObjectType CanHardwareObjectConfig_CanC
 SECTION_POSTBUILD_DATA  const  Can_ControllerBaudrateConfigType Can_SupportedBaudrates_CanController[] =
 {
 	{
-		.CanControllerBaudRate = 		500,
+		.CanControllerBaudRate = 		250,
 		.CanControllerPropSeg =			8,
 		.CanControllerSeg1 =			5,
 		.CanControllerSeg2 =			4,
@@ -61,7 +61,7 @@ SECTION_POSTBUILD_DATA  const  Can_ControllerConfigType CanControllerConfigData[
 #if defined(CFG_CAN_USE_SYMBOLIC_CANIF_CONTROLLER_ID)
     	.Can_Arc_CanIfControllerId = NO_CANIF_CONTROLLER,
 #endif
-		.CanControllerDefaultBaudrate = 500,
+		.CanControllerDefaultBaudrate = 250,
     	.CanControllerSupportedBaudrates = Can_SupportedBaudrates_CanController,
     	.CanControllerSupportedBaudratesCount = 1,
     	 	 	
