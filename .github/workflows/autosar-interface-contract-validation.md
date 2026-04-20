@@ -17,6 +17,10 @@ tools:
 
 network: defaults
 timeout-minutes: 30
+
+safe-outputs:
+  add-comment:
+    max: 1
 ---
 
 # AUTOSAR Interface Contract Compliance Validation
@@ -29,9 +33,9 @@ Validate AUTOSAR interface contract compliance by checking for drift between:
 ## Rules
 
 - Do not modify repository files.
-- Do not create pull requests, comments, or issues.
-- Keep all checks read-only and report-only.
+- Do not create pull requests or issues.
 - Always produce a job summary in `$GITHUB_STEP_SUMMARY`.
+- When the trigger is a pull request, also post a PR comment with the findings via the `add-comment` safe output.
 - Fail the run if one or more violations are found.
 
 ## Validation procedure
@@ -67,16 +71,20 @@ Validate AUTOSAR interface contract compliance by checking for drift between:
    - Include concise tables/lists of findings.
    - Include explicit pass/fail conclusion.
 
-6. Set exit status:
+6. When triggered by a pull request, also post a PR comment using the `add-comment` safe output.
+   - The comment must contain the same findings as the job summary.
+   - If there are no violations, post a brief comment confirming compliance (`✅ AUTOSAR interface contract compliance check passed – no violations found.`).
+
+7. Set exit status:
    - Exit `0` when no violations are found.
    - Exit non-zero when any violation is found.
 
 ## Output format requirements
 
-Use this summary structure:
+Use this structure for both the job summary and the PR comment:
 - `## AUTOSAR Interface Contract Compliance Report`
 - `### Scope` (counts of ARXML, C, and doc files analyzed)
 - `### Findings` (grouped by violation type)
-- `### Result` (`PASS` or `FAIL`)
+- `### Result` (`✅ PASS` or `❌ FAIL`)
 
 If no files are found for a category, add that as a finding and fail the run because validation scope is incomplete.
