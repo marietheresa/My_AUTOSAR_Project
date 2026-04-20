@@ -41,6 +41,8 @@ typedef enum {
 #define Dio_LED1 DioConf_DioChannel_LED1
 #define DioConf_DioChannel_LED2 61
 #define Dio_LED2 DioConf_DioChannel_LED2
+#define DioConf_DioChannel_LED3 62
+#define Dio_LED3 DioConf_DioChannel_LED3
 
 // Channel groups
 
