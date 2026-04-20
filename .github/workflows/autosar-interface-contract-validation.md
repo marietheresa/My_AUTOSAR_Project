@@ -42,12 +42,15 @@ Validate AUTOSAR interface contract compliance by checking for drift between:
    - Documentation: `README*`, `**/*.md`, `**/*.rst`, `**/*.txt`
 
 2. Build an ARXML contract map using a script (Python is preferred):
+   - Use Python 3.11+ with standard library only (`xml.etree.ElementTree`, `re`, `pathlib`, `json`) to avoid dependency/setup drift.
    - Parse XML with namespace-safe matching.
    - Extract interface-like and port/data-signal-like identifiers from element tags and `SHORT-NAME` values.
    - Build a unique canonical set of contract identifiers.
 
 3. Build code and documentation identifier sets:
    - From C files and docs, extract candidate identifiers using robust tokenization (word boundaries, snake/camel case-friendly patterns).
+   - Treat AUTOSAR interface-like identifiers as tokens matching `\b[A-Za-z][A-Za-z0-9_]*\b` and prioritize tokens containing AUTOSAR contract cues such as `Port`, `Interface`, `If`, `Com`, `Pdu`, `Signal`, `DataElement`, `Require`, `Provide`, `Rx`, `Tx`.
+   - Exclude obvious C language keywords and generic prose/common stop words when scanning documentation.
    - Normalize to a comparable canonical format (case-insensitive with separator normalization).
 
 4. Compare and detect violations:
