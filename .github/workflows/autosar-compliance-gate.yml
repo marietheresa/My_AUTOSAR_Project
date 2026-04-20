@@ -1,0 +1,27 @@
+name: AUTOSAR Compliance Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: AUTOSAR Contract Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run AUTOSAR compliance validation
+        id: validate
+        run: |
+          python3 scripts/validate_arxml_compliance.py | tee report.md
+          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Write job summary
+        if: always()
+        run: cat report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if violations found
+        if: steps.validate.outputs.exit_code != '0'
+        run: exit 1
