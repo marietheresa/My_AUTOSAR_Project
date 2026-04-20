@@ -49,7 +49,7 @@ Validate AUTOSAR interface contract compliance by checking for drift between:
 
 3. Build code and documentation identifier sets:
    - From C files and docs, extract candidate identifiers using robust tokenization (word boundaries, snake/camel case-friendly patterns).
-   - Treat AUTOSAR interface-like identifiers as tokens matching `\b[A-Za-z][A-Za-z0-9_]*\b` and prioritize tokens containing AUTOSAR contract cues such as `Port`, `Interface`, `If`, `Com`, `Pdu`, `Signal`, `DataElement`, `Require`, `Provide`, `Rx`, `Tx`.
+   - Treat AUTOSAR interface-like identifiers as tokens matching `\b[A-Za-z][A-Za-z0-9_]*\b`. Keep all matches as raw candidates, then apply a second-pass filter that marks as "high-confidence AUTOSAR references" only those containing contract cues such as `Port`, `Interface`, `If`, `Com`, `Pdu`, `Signal`, `DataElement`, `Require`, `Provide`, `Rx`, `Tx`; use this high-confidence set for undeclared-usage checks and include the full candidate set only as supporting context.
    - Exclude obvious C language keywords and generic prose/common stop words when scanning documentation.
    - Normalize to a comparable canonical format (case-insensitive with separator normalization).
 
